@@ -35365,10 +35365,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('a', {
     staticClass: "weui-cell weui-cell_access weui-cell_link",
     attrs: {
-      "href": "javascript:void(0);"
+      "href": "javascript:void(0)"
     },
     on: {
-      "href": function($event) {
+      "click": function($event) {
         _vm.getNews()
       }
     }

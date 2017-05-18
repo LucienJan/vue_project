@@ -14,7 +14,7 @@
 				</a>
 			</div>
 			<div class="weui-panel__ft">
-				<a @href="getNews()" href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+				<a @click="getNews()" href="javascript:void(0)" class="weui-cell weui-cell_access weui-cell_link">
 					<div class="weui-cell__bd">查看更多</div>
 					<span class="weui-cell__ft"></span>
 				</a>
@@ -61,7 +61,7 @@
 				});
 				
 				this.page++;
-			}
+			},
 		},
 		mounted() {
 			this.getNews()
