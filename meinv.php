@@ -1,8 +1,8 @@
 <?php
     header("Content-Type:text/html;charset=UTF-8");
     date_default_timezone_set("PRC");
-    $showapi_appid = '36257';  //替换此值,在官网的"我的应用"中找到相关值
-    $showapi_secret = 'fd06612e230d449294697a8bdf99242c';  //替换此值,在官网的"我的应用"中找到相关值
+    $showapi_appid = '36267';  //替换此值,在官网的"我的应用"中找到相关值
+    $showapi_secret = '09ab48f763c44ed796aa87e268c82834';  //替换此值,在官网的"我的应用"中找到相关值
     $paramArr = array(
          'showapi_appid'=> $showapi_appid,
          'num'=> "5",

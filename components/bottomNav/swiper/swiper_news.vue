@@ -3,11 +3,11 @@
 		<!-- Swiper -->
 		<div class="swiper-container">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide"><img :src="cat"/></div>
-				<div class="swiper-slide">Slide 2</div>
-				<div class="swiper-slide">Slide 3</div>
-				<div class="swiper-slide">Slide 4</div>
-				<div class="swiper-slide">Slide 5</div>
+				<div class="swiper-slide"><img :src="slide1"/></div>
+				<div class="swiper-slide"><img :src="slide2"/></div>
+				<div class="swiper-slide"><img :src="slide3"/></div>
+				<div class="swiper-slide"><img :src="slide4"/></div>
+				<div class="swiper-slide"><img :src="slide5"/></div>
 			</div>
 			<!-- Add Pagination -->
 			<div class="swiper-pagination"></div>
@@ -22,7 +22,11 @@
 	export default {
 		data() {
 			return {
-				cat: require("../../../images/cat.jpg"),
+				slide1: require("../../../images/1.jpg"),
+				slide2: require("../../../images/2.jpg"),
+				slide3: require("../../../images/3.jpg"),
+				slide4: require("../../../images/4.jpg"),
+				slide5: require("../../../images/5.jpg"),
 			}
 		},
 		mounted() {

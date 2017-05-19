@@ -23,7 +23,7 @@
 		data() {
 			return {
 				//src:require("../../../images/F4.jpg"),
-				F4: require("../../../images/F4.jpg"),
+				F4: require("../../../images/timg.jpg"),
 				iverson: require("../../../images/iverson.jpg"),
 				kobe: require("../../../images/kobe.jpg"),
 				carter: require("../../../images/carter.jpg"),

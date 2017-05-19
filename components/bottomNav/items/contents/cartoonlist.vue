@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="weui-panel weui-panel_access">
-			<div class="weui-panel__hd">美女图</div>
+			<div class="weui-panel__hd">体育新闻</div>
 			<div class="weui-panel__bd">
 				<a :href="news.url" v-for="news in newss" class="weui-media-box weui-media-box_appmsg">
 					<div class="weui-media-box__hd">
@@ -46,7 +46,7 @@
 				
 				$.ajax({
 					type: "GET",
-					url: "http://localhost/yao/vue_test/day06/vue&webpack&mui_test/api.php",
+					url: "http://localhost/yao/vue_test/day06/vue&webpack&mui_test/sport.php",
 					data: {
 						page: this.page
 					},
