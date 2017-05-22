@@ -1,15 +1,18 @@
 <template>
 	<div>
 		<div class="weui-panel weui-panel_access">
-			<div class="weui-panel__hd">体育新闻</div>
+			<!--<div class="weui-panel__hd">体育新闻</div>-->
 			<div class="weui-panel__bd">
-				<a :href="news.url" v-for="news in newss" class="weui-media-box weui-media-box_appmsg">
+				<a v-for="news in newss" class="weui-media-box weui-media-box_appmsg">
 					<div class="weui-media-box__hd">
-						<img class="weui-media-box__thumb" :src="news.picUrl" alt="">
+						<img :src="news.author.avatar_url" class="weui-media-box__thumb" alt="">
 					</div>
+					<!--<span v-text="news.tab" :class="classObject"></span>-->
 					<div class="weui-media-box__bd">
-						<h4 class="weui-media-box__title" v-text="news.title"></h4>
-						<p class="weui-media-box__desc" v-text="news.description"></p>
+						<!--<a :href="" v-text="news.title" class="weui-media-box__title"></a>-->
+						<router-link :to="{path:'/detail/' + this.$route.params.id}"></router-link>
+						<span v-text="news.reply_count" class="reply"></span>/<span v-text="news.visit_count" class="visit"></span>
+						<span v-text="news.last_reply_at" class="last_reply_at"></span>
 					</div>
 				</a>
 			</div>
@@ -25,7 +28,7 @@
 			<div class="weui-mask_transparent"></div>
 			<div class="weui-toast">
 				<i class="weui-loading weui-icon_toast"></i>
-				<p class="weui-toast__content">数据加载中</p>
+				<p class="weui-toast__content">数据加载中...</p>
 			</div>
 		</div>
 	</div>
@@ -37,16 +40,31 @@
 			return {
 				newss: [],
 				page: 1,
-				isShowLoading: 0,//表示隐藏
+				isShowLoading: 0, //表示隐藏
+				/*classObject: {
+					'topiclist_tab':false,
+					'put_top':false,
+					'put_good':false
+				},*/
 			}
 		},
 		methods: {
 			getNews() {
 				this.isShowLoading += 1;
-				
+
+				/*switch(this.newss.tab) {
+					case "ask": classObject.topiclist_tab == true;
+						break;
+					case "share": classObject.topiclist_tab == true;
+						break;
+					case "job": classObject.put_top == true;
+						break;
+					case "good": classObject.put_good == true;
+						break;
+				}*/
 				$.ajax({
 					type: "GET",
-					url: "http://localhost/yao/vue_test/day06/vue&webpack&mui_test/sport.php",
+					url: "https://cnodejs.org/api/v1/topics",
 					data: {
 						page: this.page
 					},
@@ -54,12 +72,12 @@
 					async: true,
 					success: function(data) {
 						console.log(data);
-						this.isShowLoading -= 1;//调用成功隐藏loading
-						this.newss = this.newss.concat(data.showapi_res_body.newslist)
+						this.isShowLoading -= 1; //调用成功隐藏loading
+						this.newss = this.newss.concat(data.data)
 						console.log(this.newss);
 					}.bind(this)
 				});
-				
+
 				this.page++;
 			},
 		},
@@ -70,7 +88,48 @@
 </script>
 
 <style scoped>
-	.weui-panel{
+	.weui-panel {
 		margin-bottom: 56px;
+	}
+	
+	/*.topiclist_tab {
+		background-color: #e5e5e5;
+		color: #999;
+		padding: 2px 4px;
+		border-radius: 3px;
+		font-size: 12px;
+	}
+	
+	.put_top {
+		background: #80bd01;
+		padding: 2px 4px;
+		border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-o-border-radius: 3px;
+		color: #fff;
+		font-size: 12px;
+	}
+	
+	.put_good {
+		background: orange;
+		padding: 2px 4px;
+		border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-o-border-radius: 3px;
+		color: #fff;
+		font-size: 12px;
+	}*/
+	
+	.reply,
+	.visit {
+		display: inline-block;
+		color: #777;
+	}
+	
+	.last_reply_at {
+		float: right;
+		color: #777;
 	}
 </style>

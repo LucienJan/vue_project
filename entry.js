@@ -21,6 +21,7 @@ import cartoon from "./components/bottomNav/items/cartoon.vue";
 import news from "./components/bottomNav/items/news.vue";
 import novel from "./components/bottomNav/items/novel.vue";
 import mine from "./components/bottomNav/items/mine.vue";
+import detail from "./components/detail.vue";
 
 //路由
 var router = new VueRouter({
@@ -41,6 +42,9 @@ var router = new VueRouter({
 			component: mine
 		}]
 	}, {
+		path: "/detail/:id",
+		component: detail,
+	},{
 		path: "*",
 		redirect: "/home/cartoon",
 	}]
