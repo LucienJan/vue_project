@@ -18,6 +18,9 @@ module.exports = {
 		},{
 			test:/\.(jpg|jpeg|png|gif|bmp)$/,
 			loader:"url-loader"
+		},{
+			test:/\.(ttf|svg|woff|eot)$/,
+			loader:"file-loader"
 		}]
 	},
 	devServer:{

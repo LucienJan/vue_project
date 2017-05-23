@@ -1,4 +1,8 @@
 <?php
+	header('content-type:application:json;charset=utf8');  
+	header('Access-Control-Allow-Origin:*');  
+	header('Access-Control-Allow-Methods:POST');  
+	header('Access-Control-Allow-Headers:x-requested-with,content-type');
     header("Content-Type:text/html;charset=UTF-8");
     date_default_timezone_set("PRC");
     $showapi_appid = '36267';  //替换此值,在官网的"我的应用"中找到相关值

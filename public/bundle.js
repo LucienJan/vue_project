@@ -34261,9 +34261,96 @@ exports.default = {
 
 /***/ }),
 /* 27 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: C:/Users/Administrator/Desktop/KPhone_H5/stage3/vue_test/day06/vue&webpack&mui_test/components/bottomNav/items/contents/cartoonlist.vue: Unexpected token, expected , (44:9)\n\n  42 | \t\t\tpage: 1,\n  43 | \t\t\tisShowLoading: 0, //表示隐藏\n> 44 | \t\t\t$route.params:{\n     | \t\t\t      ^\n  45 | \t\t\t\tdetail:id\n  46 | \t\t\t}\n  47 | \t\t\t/*classObject: {\n");
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+exports.default = {
+	data: function data() {
+		return {
+			newss: [],
+			page: 1,
+			isShowLoading: 0 };
+	},
+
+	methods: {
+		getNews: function getNews() {
+			this.isShowLoading += 1;
+
+			/*switch(this.newss.tab) {
+   	case "ask": classObject.topiclist_tab == true;
+   		break;
+   	case "share": classObject.topiclist_tab == true;
+   		break;
+   	case "job": classObject.put_top == true;
+   		break;
+   	case "good": classObject.put_good == true;
+   		break;
+   }*/
+			$.ajax({
+				type: "GET",
+				url: "https://cnodejs.org/api/v1/topics",
+				data: {
+					page: this.page
+				},
+				dataType: "json",
+				async: true,
+				success: function (data) {
+					console.log(data);
+					this.isShowLoading -= 1; //调用成功隐藏loading
+					this.newss = this.newss.concat(data.data);
+					console.log(this.newss);
+				}.bind(this)
+			});
+
+			this.page++;
+		}
+	},
+	mounted: function mounted() {
+		this.getNews();
+	}
+};
 
 /***/ }),
 /* 28 */
@@ -34645,12 +34732,12 @@ exports.default = {
 		getDetails: function getDetails() {
 			$.ajax({
 				type: "GET",
-				url: "https://cnodejs.org/api/v1/topic/:id",
+				url: "https://cnodejs.org/api/v1/topic/" + this.$route.params.id,
 				data: {},
 				dataType: "json",
 				success: function (data) {
 					console.log(data);
-					$("document.body").html(data);
+					$("#detail").html(data.data.content);
 					//this.detailss = this.detailss.concat(data.data.content);
 					//console.log(this.detailss);
 				}.bind(this)
@@ -34659,6 +34746,7 @@ exports.default = {
 	},
 	mounted: function mounted() {
 		this.getDetails();
+		console.log(this.$route.params.id);
 	},
 
 	components: {
@@ -34939,7 +35027,7 @@ exports = module.exports = __webpack_require__(0)(true);
 
 
 // module
-exports.push([module.i, "\n.weui-panel[data-v-5fc76a44] {\n\tmargin-bottom: 56px;\n}\n\n/*.topiclist_tab {\n\tbackground-color: #e5e5e5;\n\tcolor: #999;\n\tpadding: 2px 4px;\n\tborder-radius: 3px;\n\tfont-size: 12px;\n}\n\n.put_top {\n\tbackground: #80bd01;\n\tpadding: 2px 4px;\n\tborder-radius: 3px;\n\t-webkit-border-radius: 3px;\n\t-moz-border-radius: 3px;\n\t-o-border-radius: 3px;\n\tcolor: #fff;\n\tfont-size: 12px;\n}\n\n.put_good {\n\tbackground: orange;\n\tpadding: 2px 4px;\n\tborder-radius: 3px;\n\t-webkit-border-radius: 3px;\n\t-moz-border-radius: 3px;\n\t-o-border-radius: 3px;\n\tcolor: #fff;\n\tfont-size: 12px;\n}*/\n.reply[data-v-5fc76a44],\n.visit[data-v-5fc76a44] {\n\tdisplay: inline-block;\n\tcolor: #777;\n}\n.last_reply_at[data-v-5fc76a44] {\n\tfloat: right;\n\tcolor: #777;\n}\n", "", {"version":3,"sources":["C:/Users/Administrator/Desktop/KPhone_H5/stage3/vue_test/day06/vue&webpack&mui_test/components/bottomNav/items/contents/cartoonlist.vue?3d4368e6"],"names":[],"mappings":";AA6FA;CACA,oBAAA;CACA;;AAEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;GA4BA;AAEA;;CAEA,sBAAA;CACA,YAAA;CACA;AAEA;CACA,aAAA;CACA,YAAA;CACA","file":"cartoonlist.vue","sourcesContent":["<template>\r\n\t<div>\r\n\t\t<div class=\"weui-panel weui-panel_access\">\r\n\t\t\t<!--<div class=\"weui-panel__hd\">体育新闻</div>-->\r\n\t\t\t<div class=\"weui-panel__bd\">\r\n\t\t\t\t<a v-for=\"news in newss\" class=\"weui-media-box weui-media-box_appmsg\">\r\n\t\t\t\t\t<div class=\"weui-media-box__hd\">\r\n\t\t\t\t\t\t<img :src=\"news.author.avatar_url\" class=\"weui-media-box__thumb\" alt=\"\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<!--<span v-text=\"news.tab\" :class=\"classObject\"></span>-->\r\n\t\t\t\t\t<div class=\"weui-media-box__bd\">\r\n\t\t\t\t\t\t<!--<a :href=\"\" v-text=\"news.title\" class=\"weui-media-box__title\"></a>-->\r\n\t\t\t\t\t\t<router-link :to=\"{path:'/detail' + this.$route.params.id}\"></router-link>\r\n\t\t\t\t\t\t<span v-text=\"news.reply_count\" class=\"reply\"></span>/<span v-text=\"news.visit_count\" class=\"visit\"></span>\r\n\t\t\t\t\t\t<span v-text=\"news.last_reply_at\" class=\"last_reply_at\"></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</a>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"weui-panel__ft\">\r\n\t\t\t\t<a @click=\"getNews()\" href=\"javascript:void(0)\" class=\"weui-cell weui-cell_access weui-cell_link\">\r\n\t\t\t\t\t<div class=\"weui-cell__bd\">查看更多</div>\r\n\t\t\t\t\t<span class=\"weui-cell__ft\"></span>\r\n\t\t\t\t</a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<!--===========数据加载中===========-->\r\n\t\t<div id=\"loadingToast\" :style=\"{display:isShowLoading?'block':'none'}\">\r\n\t\t\t<div class=\"weui-mask_transparent\"></div>\r\n\t\t\t<div class=\"weui-toast\">\r\n\t\t\t\t<i class=\"weui-loading weui-icon_toast\"></i>\r\n\t\t\t\t<p class=\"weui-toast__content\">数据加载中...</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</template>\r\n\r\n<script>\r\n\texport default {\r\n\t\tdata() {\r\n\t\t\treturn {\r\n\t\t\t\tnewss: [],\r\n\t\t\t\tpage: 1,\r\n\t\t\t\tisShowLoading: 0, //表示隐藏\r\n\t\t\t\t$route.params:{\r\n\t\t\t\t\tdetail:id\r\n\t\t\t\t}\r\n\t\t\t\t/*classObject: {\r\n\t\t\t\t\t'topiclist_tab':false,\r\n\t\t\t\t\t'put_top':false,\r\n\t\t\t\t\t'put_good':false\r\n\t\t\t\t},*/\r\n\t\t\t}\r\n\t\t},\r\n\t\tmethods: {\r\n\t\t\tgetNews() {\r\n\t\t\t\tthis.isShowLoading += 1;\r\n\r\n\t\t\t\t/*switch(this.newss.tab) {\r\n\t\t\t\t\tcase \"ask\": classObject.topiclist_tab == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tcase \"share\": classObject.topiclist_tab == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tcase \"job\": classObject.put_top == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tcase \"good\": classObject.put_good == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t}*/\r\n\t\t\t\t$.ajax({\r\n\t\t\t\t\ttype: \"GET\",\r\n\t\t\t\t\turl: \"https://cnodejs.org/api/v1/topics\",\r\n\t\t\t\t\tdata: {\r\n\t\t\t\t\t\tpage: this.page\r\n\t\t\t\t\t},\r\n\t\t\t\t\tdataType: \"json\",\r\n\t\t\t\t\tasync: true,\r\n\t\t\t\t\tsuccess: function(data) {\r\n\t\t\t\t\t\tconsole.log(data);\r\n\t\t\t\t\t\tthis.isShowLoading -= 1; //调用成功隐藏loading\r\n\t\t\t\t\t\tthis.newss = this.newss.concat(data.data)\r\n\t\t\t\t\t\tconsole.log(this.newss);\r\n\t\t\t\t\t}.bind(this)\r\n\t\t\t\t});\r\n\r\n\t\t\t\tthis.page++;\r\n\t\t\t},\r\n\t\t},\r\n\t\tmounted() {\r\n\t\t\tthis.getNews()\r\n\t\t}\r\n\t}\r\n</script>\r\n\r\n<style scoped>\r\n\t.weui-panel {\r\n\t\tmargin-bottom: 56px;\r\n\t}\r\n\t\r\n\t/*.topiclist_tab {\r\n\t\tbackground-color: #e5e5e5;\r\n\t\tcolor: #999;\r\n\t\tpadding: 2px 4px;\r\n\t\tborder-radius: 3px;\r\n\t\tfont-size: 12px;\r\n\t}\r\n\t\r\n\t.put_top {\r\n\t\tbackground: #80bd01;\r\n\t\tpadding: 2px 4px;\r\n\t\tborder-radius: 3px;\r\n\t\t-webkit-border-radius: 3px;\r\n\t\t-moz-border-radius: 3px;\r\n\t\t-o-border-radius: 3px;\r\n\t\tcolor: #fff;\r\n\t\tfont-size: 12px;\r\n\t}\r\n\t\r\n\t.put_good {\r\n\t\tbackground: orange;\r\n\t\tpadding: 2px 4px;\r\n\t\tborder-radius: 3px;\r\n\t\t-webkit-border-radius: 3px;\r\n\t\t-moz-border-radius: 3px;\r\n\t\t-o-border-radius: 3px;\r\n\t\tcolor: #fff;\r\n\t\tfont-size: 12px;\r\n\t}*/\r\n\t\r\n\t.reply,\r\n\t.visit {\r\n\t\tdisplay: inline-block;\r\n\t\tcolor: #777;\r\n\t}\r\n\t\r\n\t.last_reply_at {\r\n\t\tfloat: right;\r\n\t\tcolor: #777;\r\n\t}\r\n</style>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.weui-panel[data-v-5fc76a44] {\n\tmargin-bottom: 56px;\n}\n\n/*.topiclist_tab {\n\tbackground-color: #e5e5e5;\n\tcolor: #999;\n\tpadding: 2px 4px;\n\tborder-radius: 3px;\n\tfont-size: 12px;\n}\n\n.put_top {\n\tbackground: #80bd01;\n\tpadding: 2px 4px;\n\tborder-radius: 3px;\n\t-webkit-border-radius: 3px;\n\t-moz-border-radius: 3px;\n\t-o-border-radius: 3px;\n\tcolor: #fff;\n\tfont-size: 12px;\n}\n\n.put_good {\n\tbackground: orange;\n\tpadding: 2px 4px;\n\tborder-radius: 3px;\n\t-webkit-border-radius: 3px;\n\t-moz-border-radius: 3px;\n\t-o-border-radius: 3px;\n\tcolor: #fff;\n\tfont-size: 12px;\n}*/\n.reply[data-v-5fc76a44],\n.visit[data-v-5fc76a44] {\n\tdisplay: inline-block;\n\tcolor: #777;\n}\n.last_reply_at[data-v-5fc76a44] {\n\tfloat: right;\n\tcolor: #777;\n}\n", "", {"version":3,"sources":["C:/Users/Administrator/Desktop/KPhone_H5/stage3/vue_test/day06/vue&webpack&mui_test/components/bottomNav/items/contents/cartoonlist.vue?572e33ed"],"names":[],"mappings":";AA0FA;CACA,oBAAA;CACA;;AAEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;GA4BA;AAEA;;CAEA,sBAAA;CACA,YAAA;CACA;AAEA;CACA,aAAA;CACA,YAAA;CACA","file":"cartoonlist.vue","sourcesContent":["<template>\r\n\t<div>\r\n\t\t<div class=\"weui-panel weui-panel_access\">\r\n\t\t\t<!--<div class=\"weui-panel__hd\">体育新闻</div>-->\r\n\t\t\t<div class=\"weui-panel__bd\">\r\n\t\t\t\t<a v-for=\"news in newss\" class=\"weui-media-box weui-media-box_appmsg\">\r\n\t\t\t\t\t<div class=\"weui-media-box__hd\">\r\n\t\t\t\t\t\t<img :src=\"news.author.avatar_url\" class=\"weui-media-box__thumb\" alt=\"\">\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<!--<span v-text=\"news.tab\" :class=\"classObject\"></span>-->\r\n\t\t\t\t\t<div class=\"weui-media-box__bd\">\r\n\t\t\t\t\t\t<!--<a :href=\"\" v-text=\"news.title\" class=\"weui-media-box__title\"></a>-->\r\n\t\t\t\t\t\t<router-link :to=\"{path:'/detail/' + news.id}\" v-text=\"news.title\"></router-link>\r\n\t\t\t\t\t\t<span v-text=\"news.reply_count\" class=\"reply\"></span>/<span v-text=\"news.visit_count\" class=\"visit\"></span>\r\n\t\t\t\t\t\t<span v-text=\"news.last_reply_at\" class=\"last_reply_at\"></span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</a>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"weui-panel__ft\">\r\n\t\t\t\t<a @click=\"getNews()\" href=\"javascript:void(0)\" class=\"weui-cell weui-cell_access weui-cell_link\">\r\n\t\t\t\t\t<div class=\"weui-cell__bd\">查看更多</div>\r\n\t\t\t\t\t<span class=\"weui-cell__ft\"></span>\r\n\t\t\t\t</a>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t\t<!--===========数据加载中===========-->\r\n\t\t<div id=\"loadingToast\" :style=\"{display:isShowLoading?'block':'none'}\">\r\n\t\t\t<div class=\"weui-mask_transparent\"></div>\r\n\t\t\t<div class=\"weui-toast\">\r\n\t\t\t\t<i class=\"weui-loading weui-icon_toast\"></i>\r\n\t\t\t\t<p class=\"weui-toast__content\">数据加载中...</p>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</template>\r\n\r\n<script>\r\n\texport default {\r\n\t\tdata() {\r\n\t\t\treturn {\r\n\t\t\t\tnewss: [],\r\n\t\t\t\tpage: 1,\r\n\t\t\t\tisShowLoading: 0, //表示隐藏\r\n\t\t\t\t/*classObject: {\r\n\t\t\t\t\t'topiclist_tab':false,\r\n\t\t\t\t\t'put_top':false,\r\n\t\t\t\t\t'put_good':false\r\n\t\t\t\t},*/\r\n\t\t\t}\r\n\t\t},\r\n\t\tmethods: {\r\n\t\t\tgetNews() {\r\n\t\t\t\tthis.isShowLoading += 1;\r\n\r\n\t\t\t\t/*switch(this.newss.tab) {\r\n\t\t\t\t\tcase \"ask\": classObject.topiclist_tab == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tcase \"share\": classObject.topiclist_tab == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tcase \"job\": classObject.put_top == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\tcase \"good\": classObject.put_good == true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t}*/\r\n\t\t\t\t$.ajax({\r\n\t\t\t\t\ttype: \"GET\",\r\n\t\t\t\t\turl: \"https://cnodejs.org/api/v1/topics\",\r\n\t\t\t\t\tdata: {\r\n\t\t\t\t\t\tpage: this.page\r\n\t\t\t\t\t},\r\n\t\t\t\t\tdataType: \"json\",\r\n\t\t\t\t\tasync: true,\r\n\t\t\t\t\tsuccess: function(data) {\r\n\t\t\t\t\t\tconsole.log(data);\r\n\t\t\t\t\t\tthis.isShowLoading -= 1; //调用成功隐藏loading\r\n\t\t\t\t\t\tthis.newss = this.newss.concat(data.data)\r\n\t\t\t\t\t\tconsole.log(this.newss);\r\n\t\t\t\t\t}.bind(this)\r\n\t\t\t\t});\r\n\r\n\t\t\t\tthis.page++;\r\n\t\t\t},\r\n\t\t},\r\n\t\tmounted() {\r\n\t\t\tthis.getNews()\r\n\t\t}\r\n\t}\r\n</script>\r\n\r\n<style scoped>\r\n\t.weui-panel {\r\n\t\tmargin-bottom: 56px;\r\n\t}\r\n\t\r\n\t/*.topiclist_tab {\r\n\t\tbackground-color: #e5e5e5;\r\n\t\tcolor: #999;\r\n\t\tpadding: 2px 4px;\r\n\t\tborder-radius: 3px;\r\n\t\tfont-size: 12px;\r\n\t}\r\n\t\r\n\t.put_top {\r\n\t\tbackground: #80bd01;\r\n\t\tpadding: 2px 4px;\r\n\t\tborder-radius: 3px;\r\n\t\t-webkit-border-radius: 3px;\r\n\t\t-moz-border-radius: 3px;\r\n\t\t-o-border-radius: 3px;\r\n\t\tcolor: #fff;\r\n\t\tfont-size: 12px;\r\n\t}\r\n\t\r\n\t.put_good {\r\n\t\tbackground: orange;\r\n\t\tpadding: 2px 4px;\r\n\t\tborder-radius: 3px;\r\n\t\t-webkit-border-radius: 3px;\r\n\t\t-moz-border-radius: 3px;\r\n\t\t-o-border-radius: 3px;\r\n\t\tcolor: #fff;\r\n\t\tfont-size: 12px;\r\n\t}*/\r\n\t\r\n\t.reply,\r\n\t.visit {\r\n\t\tdisplay: inline-block;\r\n\t\tcolor: #777;\r\n\t}\r\n\t\r\n\t.last_reply_at {\r\n\t\tfloat: right;\r\n\t\tcolor: #777;\r\n\t}\r\n</style>"],"sourceRoot":""}]);
 
 // exports
 
@@ -35009,7 +35097,7 @@ exports = module.exports = __webpack_require__(0)(true);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"detail.vue","sourceRoot":""}]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"detail.vue","sourceRoot":""}]);
 
 // exports
 
@@ -35664,8 +35752,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('router-link', {
       attrs: {
         "to": {
-          path: '/detail' + this.$route.params.id
+          path: '/detail/' + news.id
         }
+      },
+      domProps: {
+        "textContent": _vm._s(news.title)
       }
     }), _vm._v(" "), _c('span', {
       staticClass: "reply",

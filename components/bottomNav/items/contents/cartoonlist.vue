@@ -7,21 +7,30 @@
 					<div class="weui-media-box__hd">
 						<img :src="news.author.avatar_url" class="weui-media-box__thumb" alt="">
 					</div>
-					<!--<span v-text="news.tab" :class="classObject"></span>-->
+
 					<div class="weui-media-box__bd">
-						<!--<a :href="" v-text="news.title" class="weui-media-box__title"></a>-->
-						<router-link :to="{path:'/detail/' + this.$route.params.id}"></router-link>
-						<span v-text="news.reply_count" class="reply"></span>/<span v-text="news.visit_count" class="visit"></span>
-						<span v-text="news.last_reply_at" class="last_reply_at"></span>
+						<!--<a :href="/detail/?id=news.id" v-text="news.title" class="weui-media-box__title"></a>-->
+						<router-link :to="{path:'/detail/' + news.id}" v-text="news.title" class="router-link"></router-link>
+						<span v-text="news.tab" ></span>
+						<div class="reply">
+							<span v-text="news.reply_count"></span>/
+							<span v-text="news.visit_count"></span>
+						</div>
+						<!--<span v-text="news.last_reply_at" class="last_reply_at"></span>-->
 					</div>
 				</a>
 			</div>
-			<div class="weui-panel__ft">
+			<!--返回顶部-->
+			<div id="returnTop" @click="toTop()" style="display:none;">返回顶部</div>
+			<!--<div class="weui-panel__ft">
 				<a @click="getNews()" href="javascript:void(0)" class="weui-cell weui-cell_access weui-cell_link">
 					<div class="weui-cell__bd">查看更多</div>
 					<span class="weui-cell__ft"></span>
 				</a>
-			</div>
+			</div>-->
+			<mu-pagination :total="total" :current="current" @pageChange="handleClick">
+			</mu-pagination>
+
 		</div>
 		<!--===========数据加载中===========-->
 		<div id="loadingToast" :style="{display:isShowLoading?'block':'none'}">
@@ -41,27 +50,48 @@
 				newss: [],
 				page: 1,
 				isShowLoading: 0, //表示隐藏
-				/*classObject: {
-					'topiclist_tab':false,
-					'put_top':false,
-					'put_good':false
-				},*/
+				classObj: {
+					'topiclist_tab': false,
+					'put_top': false,
+					'put_good': false
+				},
+				total: 50,
+				current: 1
 			}
 		},
 		methods: {
+			//回到顶部
+			toTop() {
+				$("#returnTop").click(function() {
+					var speed = 200; //滑动的速度
+					$('body,html').animate({ scrollTop: 0 }, speed);
+					return false;
+				});
+			},
+			handleClick(newIndex) {
+				console.log(newIndex);
+				this.page = newIndex;
+				
+				this.getNews();
+				$('body,html').animate({ scrollTop: 0 }, 200);
+			},
 			getNews() {
 				this.isShowLoading += 1;
 
-				/*switch(this.newss.tab) {
-					case "ask": classObject.topiclist_tab == true;
+				switch(this.newss.tab) {
+					case "ask":
+						classObj.topiclist_tab == true;
 						break;
-					case "share": classObject.topiclist_tab == true;
+					case "share":
+						classObj.topiclist_tab == true;
 						break;
-					case "job": classObject.put_top == true;
+					case "job":
+						classObj.put_top == true;
 						break;
-					case "good": classObject.put_good == true;
+					case "good":
+						classObj.put_good == true;
 						break;
-				}*/
+				}
 				$.ajax({
 					type: "GET",
 					url: "https://cnodejs.org/api/v1/topics",
@@ -73,7 +103,8 @@
 					success: function(data) {
 						console.log(data);
 						this.isShowLoading -= 1; //调用成功隐藏loading
-						this.newss = this.newss.concat(data.data)
+						//this.newss = this.newss.concat(data.data)
+						this.newss = data.data;
 						console.log(this.newss);
 					}.bind(this)
 				});
@@ -83,16 +114,71 @@
 		},
 		mounted() {
 			this.getNews()
+			//滚动条
+			$(function(){
+				$(window).bind("scroll",function(){
+					var sTop = parseInt($(window).scrollTop());
+					if(sTop >= 236){
+						if(!$("#returnTop").is(":visible")){
+							try {
+								//$("#returnTop").slideDown();
+								$("#returnTop").fadeIn();
+							} catch(e){
+								$("#returnTop").slideDown();
+								//$("#returnTop").fadeIn();
+							}
+						}
+					}else{
+						if($("#returnTop").is(":visible")){
+							try {
+								//$("#returnTop").slideUp();
+								$("#returnTop").fadeOut();
+							} catch(e) {
+								$("#returnTop").slideUp();
+								//$("#returnTop").fadeout();
+							}
+						}
+					}
+				})
+			})
 		}
 	}
 </script>
 
 <style scoped>
+	#returnTop {
+		display: block;
+		position: fixed;
+		top: 300px;
+		right: 0;
+		max-width: 28px;
+		/*max-height: 8rem;*/
+		background-color: #F5F5F5;
+		color: gray;
+		border: 1px #ccc solid;
+		border-right: 0;
+		border-radius: 12px 0 0 12px;
+		text-align: center;
+		z-index: 20;
+		padding: 12px 0 12px 5px;
+		cursor:pointer;
+	}
+	#returnTop:active {
+		background-color: #A6E1EC;
+	}
+	
 	.weui-panel {
 		margin-bottom: 56px;
 	}
 	
-	/*.topiclist_tab {
+	.router-link {
+		color: #000000;
+		font-size: 14px;
+		font-weight: bold;
+		display: block;
+	}
+	
+	.topiclist_tab {
 		background-color: #e5e5e5;
 		color: #999;
 		padding: 2px 4px;
@@ -120,10 +206,11 @@
 		-o-border-radius: 3px;
 		color: #fff;
 		font-size: 12px;
-	}*/
+	}
 	
-	.reply,
-	.visit {
+	
+	.reply {
+		float: right;
 		display: inline-block;
 		color: #777;
 	}

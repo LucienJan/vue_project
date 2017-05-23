@@ -3,7 +3,7 @@
 		<router-view></router-view>
 		<mu-paper id="mybottom">
 			<mu-bottom-nav :value="bottomNav" @change="handleChange">
-				<router-link to="/home/cartoon" >
+				<router-link to="/home/cartoon">
 					<mu-bottom-nav-item value="推荐" title="推荐" icon="functions"/>
 				</router-link>
 

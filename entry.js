@@ -12,6 +12,10 @@ import 'muse-ui/dist/muse-ui.css';
 Vue.use(MuseUI);
 //引入weui
 import "weui";
+//引入mui
+//import "mui";
+//require("./mui/css/mui.css");
+//window.mui = require("mui");
 //引入swiper
 import "swiper"
 
