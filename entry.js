@@ -55,10 +55,10 @@ var router = new VueRouter({
 })
 
 //状态管理
-var store = new Vuex.Store({
+const store = new Vuex.Store({
 	state: {
 		auther:"LucienJan",
-		exchange: "测试一下"
+		exchange: "推荐",
 	},
 	mutations: {
 		setExchange(state, data) {

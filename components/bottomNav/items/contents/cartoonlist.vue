@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<div class="weui-panel weui-panel_access">
-			<!--<div class="weui-panel__hd">体育新闻</div>-->
 			<div class="weui-panel__bd">
 				<a v-for="news in newss" class="weui-media-box weui-media-box_appmsg">
 					<div class="weui-media-box__hd">
@@ -11,7 +10,11 @@
 					<div class="weui-media-box__bd">
 						<!--<a :href="/detail/?id=news.id" v-text="news.title" class="weui-media-box__title"></a>-->
 						<router-link :to="{path:'/detail/' + news.id}" v-text="news.title" class="router-link"></router-link>
-						<span v-text="news.tab" ></span>
+						<span class="put_top" v-show="news.tab==true" style>置顶</span>
+						<span class="put_top" v-show="news.tab!==true&&" style="background-color:yellow;">精华</span>
+						<span class="put_top" v-show="news.tab!==true&&" style="background-color:pink;">问答</span>
+						<span class="put_top" v-show="news.tab!==true&&" style="background-color:orange;">分享</span>
+						<span class="put_top" v-show="news.tab!==true&&" style="background-color:blue;">招聘</span>
 						<div class="reply">
 							<span v-text="news.reply_count"></span>/
 							<span v-text="news.visit_count"></span>
@@ -20,7 +23,7 @@
 					</div>
 				</a>
 			</div>
-			<!--返回顶部-->
+			<!--==========返回顶部==========-->
 			<div id="returnTop" @click="toTop()" style="display:none;">返回顶部</div>
 			<!--<div class="weui-panel__ft">
 				<a @click="getNews()" href="javascript:void(0)" class="weui-cell weui-cell_access weui-cell_link">
@@ -28,9 +31,8 @@
 					<span class="weui-cell__ft"></span>
 				</a>
 			</div>-->
-			<mu-pagination :total="total" :current="current" @pageChange="handleClick">
-			</mu-pagination>
-
+			<!--==========分页栏==========-->
+			<mu-pagination class="paging" :total="total" :current="current" @pageChange="handleClick"></mu-pagination>
 		</div>
 		<!--===========数据加载中===========-->
 		<div id="loadingToast" :style="{display:isShowLoading?'block':'none'}">
@@ -56,7 +58,7 @@
 					'put_good': false
 				},
 				total: 50,
-				current: 1
+				current: 1,
 			}
 		},
 		methods: {
@@ -114,7 +116,7 @@
 		},
 		mounted() {
 			this.getNews()
-			//滚动条
+			//滚动一定距离显示返回顶部
 			$(function(){
 				$(window).bind("scroll",function(){
 					var sTop = parseInt($(window).scrollTop());
@@ -178,36 +180,14 @@
 		display: block;
 	}
 	
-	.topiclist_tab {
-		background-color: #e5e5e5;
-		color: #999;
-		padding: 2px 4px;
-		border-radius: 3px;
-		font-size: 12px;
-	}
-	
+	/*小标签样式*/
 	.put_top {
-		background: #80bd01;
+		/*background: #80bd01;*/
 		padding: 2px 4px;
 		border-radius: 3px;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		-o-border-radius: 3px;
 		color: #fff;
 		font-size: 12px;
 	}
-	
-	.put_good {
-		background: orange;
-		padding: 2px 4px;
-		border-radius: 3px;
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		-o-border-radius: 3px;
-		color: #fff;
-		font-size: 12px;
-	}
-	
 	
 	.reply {
 		float: right;
@@ -218,5 +198,10 @@
 	.last_reply_at {
 		float: right;
 		color: #777;
+	}
+	
+	/*分页*/
+	.paging{
+		max-width: 100%;
 	}
 </style>

@@ -54,6 +54,9 @@
 			</div>
 		</div>
 
+		<!--============返回顶部=============-->
+		<div id="returnTop" @click="toTop()" style="display:none;">返回顶部</div>
+
 		<!--===========数据加载中===========-->
 		<div id="loadingToast" :style="{display:isShowLoading?'block':'none'}">
 			<div class="weui-mask_transparent"></div>
@@ -77,6 +80,13 @@
 			}
 		},
 		methods: {
+			toTop() {
+				$("#returnTop").click(function() {
+					var speed = 200; //滑动的速度
+					$('body,html').animate({ scrollTop: 0 }, speed);
+					return false;
+				});
+			},
 			handleTabChange(val) {
 				this.activeTab = val
 			},
@@ -128,6 +138,33 @@
 		mounted() {
 			this.getGirls()
 			this.getNews()
+			//滚动一定距离显示返回顶部
+			$(function(){
+				$(window).bind("scroll",function(){
+					var sTop = parseInt($(window).scrollTop());
+					if(sTop >= 236){
+						if(!$("#returnTop").is(":visible")){
+							try {
+								//$("#returnTop").slideDown();
+								$("#returnTop").fadeIn();
+							} catch(e){
+								$("#returnTop").slideDown();
+								//$("#returnTop").fadeIn();
+							}
+						}
+					}else{
+						if($("#returnTop").is(":visible")){
+							try {
+								//$("#returnTop").slideUp();
+								$("#returnTop").fadeOut();
+							} catch(e) {
+								$("#returnTop").slideUp();
+								//$("#returnTop").fadeout();
+							}
+						}
+					}
+				})
+			})
 		}
 	}
 </script>
@@ -135,5 +172,26 @@
 <style scoped>
 	#newslist{
 		margin-bottom: 56px;
+	}
+	
+	#returnTop {
+		display: block;
+		position: fixed;
+		top: 300px;
+		right: 0;
+		max-width: 28px;
+		/*max-height: 8rem;*/
+		background-color: #F5F5F5;
+		color: gray;
+		border: 1px #ccc solid;
+		border-right: 0;
+		border-radius: 12px 0 0 12px;
+		text-align: center;
+		z-index: 20;
+		padding: 12px 0 12px 5px;
+		cursor:pointer;
+	}
+	#returnTop:active {
+		background-color: #A6E1EC;
 	}
 </style>

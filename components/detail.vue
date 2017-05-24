@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<detail-header></detail-header>
-		<div id="demo"></div>
+		<div id="detail"></div>
+		<comment-list></comment-list>
 	</div>
 </template>
 
 <script>
 	import detailHeader from "./headerNav/detail_header.vue";
+	import commentList from "./comment.vue";
 	export default {
 		data() {
-			return {
-				detailss: [],
-			}
+			return {}
 		},
 		methods: {
 			getDetails() {
@@ -23,7 +23,7 @@
 					success: function(data) {
 						console.log(data);
 						//console.log(data.data.content);
-						$("#demo").html(data.data.content);
+						$("#detail").html(data.data.content);
 						//this.detailss = this.detailss.concat(data.data.content);
 						//console.log(this.detailss);
 					}.bind(this)
@@ -36,20 +36,23 @@
 		},
 		components: {
 			detailHeader,
+			commentList,
 		}
 	}
 </script>
 
 <style scoped>
-	#demo {
+	ul,li{
+		list-style: none;
+	}
+	#detail {
 		height: 100%;
 		width: 100%;
 		margin-top:56px;
-		padding: 0 1rem;
+		padding: 1rem;
 	}
-	
-	#demo img {
-		max-width: 100%;
+	#detail img {
+		min-width: 100%;
 		height: auto;
 		width: auto;
 	}

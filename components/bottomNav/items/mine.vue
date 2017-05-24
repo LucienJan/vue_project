@@ -1,16 +1,27 @@
 <template>
-	<div>
-		<p id="mine">{{mine}}</p>
+	<div id="mine">
+		<login></login>
 	</div>
 </template>
 
 <script>
+	import login from "./contents/login.vue";
+	
 	export default {
 		data(){
 			return {
-				mine:"个人中心"
+				
 			}
 		},
+		methods:{
+			
+		},
+		mounted(){
+			
+		},
+		components:{
+			login,
+		}
 	}
 </script>
 
