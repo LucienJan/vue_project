@@ -10,21 +10,26 @@
 					<div class="weui-media-box__bd">
 						<!--<a :href="/detail/?id=news.id" v-text="news.title" class="weui-media-box__title"></a>-->
 						<router-link :to="{path:'/detail/' + news.id}" v-text="news.title" class="router-link"></router-link>
-						<span class="put_top" v-show="news.tab==true" style>置顶</span>
-						<span class="put_top" v-show="news.tab!==true&&" style="background-color:yellow;">精华</span>
-						<span class="put_top" v-show="news.tab!==true&&" style="background-color:pink;">问答</span>
-						<span class="put_top" v-show="news.tab!==true&&" style="background-color:orange;">分享</span>
-						<span class="put_top" v-show="news.tab!==true&&" style="background-color:blue;">招聘</span>
-						<div class="reply">
-							<span v-text="news.reply_count"></span>/
-							<span v-text="news.visit_count"></span>
-						</div>
-						<!--<span v-text="news.last_reply_at" class="last_reply_at"></span>-->
+						<!--<span v-text="news.tab"></span>-->
+							<span class="put_top" v-show="news.top==true" style="background-color:#80bd01;">置顶</span>
+							<span class="put_top" v-show="news.top!==true && news.good==true" style="background-color:#80bd01;">精华</span>
+							<span class="put_top" v-show="news.top!==true && news.tab=='ask'" style="background-color:skyblue;">问答</span>
+							<span class="put_top" v-show="news.top!==true && news.good!==true && news.tab=='share'" style="background-color:orange;">分享</span>
+							<span class="put_top" v-show="news.top!==true && news.tab=='job'" style="background-color:red;">招聘</span>
+							<div class="reply">
+								<span v-text="news.reply_count"></span>/<span v-text="news.visit_count"></span>
+							</div>
+						<!--最后发表时间-->
+						<!--<span v-text="jsonDateFormat(news.last_reply_at)" class="last_reply_at"></span>-->
+						<span v-text="new.last_reply_at" class="last_reply_at"></span>
 					</div>
 				</a>
 			</div>
 			<!--==========返回顶部==========-->
 			<div id="returnTop" @click="toTop()" style="display:none;">返回顶部</div>
+			<!--<div id="returnTop" class="icon-contaner" @click="toTop()" style="display:none;">
+				<mu-icon value="forward" class="icon"></mu-icon>
+			</div>-->
 			<!--<div class="weui-panel__ft">
 				<a @click="getNews()" href="javascript:void(0)" class="weui-cell weui-cell_access weui-cell_link">
 					<div class="weui-cell__bd">查看更多</div>
@@ -59,6 +64,7 @@
 				},
 				total: 50,
 				current: 1,
+				last_reply_at: '',
 			}
 		},
 		methods: {
@@ -73,7 +79,7 @@
 			handleClick(newIndex) {
 				console.log(newIndex);
 				this.page = newIndex;
-				
+
 				this.getNews();
 				$('body,html').animate({ scrollTop: 0 }, 200);
 			},
@@ -113,25 +119,35 @@
 
 				this.page++;
 			},
+			jsonDateFormat(jsonDate) { //json日期格式转换为正常格式
+				try {
+					var date = new Date(parseInt(jsonDate.replace("/Date(", "").replace(")/", ""), 10));
+					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+					var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+					return date.getFullYear() + "." + month + "." + day;
+				} catch(ex) {
+					return "";
+				}
+			}
 		},
 		mounted() {
-			this.getNews()
+			this.getNews();
 			//滚动一定距离显示返回顶部
-			$(function(){
-				$(window).bind("scroll",function(){
+			$(function() {
+				$(window).bind("scroll", function() {
 					var sTop = parseInt($(window).scrollTop());
-					if(sTop >= 236){
-						if(!$("#returnTop").is(":visible")){
+					if(sTop >= 236) {
+						if(!$("#returnTop").is(":visible")) {
 							try {
 								//$("#returnTop").slideDown();
 								$("#returnTop").fadeIn();
-							} catch(e){
+							} catch(e) {
 								$("#returnTop").slideDown();
 								//$("#returnTop").fadeIn();
 							}
 						}
-					}else{
-						if($("#returnTop").is(":visible")){
+					} else {
+						if($("#returnTop").is(":visible")) {
 							try {
 								//$("#returnTop").slideUp();
 								$("#returnTop").fadeOut();
@@ -142,7 +158,28 @@
 						}
 					}
 				})
-			})
+			});
+
+			//发送时间格式数据
+			this.jsonDateFormat();
+
+			/*$.post("../../../../prettyDate.php",{
+				news.last_reply_at
+			})*/
+
+			/*$(function(){
+				$.ajax({
+					type: "POST",
+					url: "../../../../prettyDate.php",
+					data: {},
+					dataType:"json",
+					async: true,
+					success: function(data){
+						console.log(data);
+						this.news = data.data;
+					}.bind(this)
+				});
+			});*/
 		}
 	}
 </script>
@@ -153,8 +190,9 @@
 		position: fixed;
 		top: 300px;
 		right: 0;
-		max-width: 28px;
-		/*max-height: 8rem;*/
+		width: 30px;
+		/*max-width: 40px;*/
+		/*max-height: 30px;*/
 		background-color: #F5F5F5;
 		color: gray;
 		border: 1px #ccc solid;
@@ -163,10 +201,17 @@
 		text-align: center;
 		z-index: 20;
 		padding: 12px 0 12px 5px;
-		cursor:pointer;
+		cursor: pointer;
 	}
+	
 	#returnTop:active {
 		background-color: #A6E1EC;
+	}
+	
+	#returnTop:after {
+		display: block;
+		content: '';
+		clear: both;
 	}
 	
 	.weui-panel {
@@ -179,29 +224,30 @@
 		font-weight: bold;
 		display: block;
 	}
-	
 	/*小标签样式*/
+	
 	.put_top {
 		/*background: #80bd01;*/
-		padding: 2px 4px;
+		padding: 4px 6px;
 		border-radius: 3px;
 		color: #fff;
 		font-size: 12px;
 	}
 	
 	.reply {
-		float: right;
 		display: inline-block;
+		float: right;
 		color: #777;
 	}
 	
 	.last_reply_at {
+		display:inline-block;
 		float: right;
 		color: #777;
 	}
-	
 	/*分页*/
-	.paging{
+	
+	.paging {
 		max-width: 100%;
 	}
 </style>
