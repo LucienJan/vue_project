@@ -11,17 +11,17 @@
 						<!--<a :href="/detail/?id=news.id" v-text="news.title" class="weui-media-box__title"></a>-->
 						<router-link :to="{path:'/detail/' + news.id}" v-text="news.title" class="router-link"></router-link>
 						<!--<span v-text="news.tab"></span>-->
-							<span class="put_top" v-show="news.top==true" style="background-color:#80bd01;">置顶</span>
-							<span class="put_top" v-show="news.top!==true && news.good==true" style="background-color:#80bd01;">精华</span>
-							<span class="put_top" v-show="news.top!==true && news.tab=='ask'" style="background-color:skyblue;">问答</span>
-							<span class="put_top" v-show="news.top!==true && news.good!==true && news.tab=='share'" style="background-color:orange;">分享</span>
-							<span class="put_top" v-show="news.top!==true && news.tab=='job'" style="background-color:red;">招聘</span>
-							<div class="reply">
-								<span v-text="news.reply_count"></span>/<span v-text="news.visit_count"></span>
-							</div>
-						<!--最后发表时间-->
-						<!--<span v-text="jsonDateFormat(news.last_reply_at)" class="last_reply_at"></span>-->
-						<span v-text="new.last_reply_at" class="last_reply_at"></span>
+						<span class="put_top" v-show="news.top==true" style="background-color:#80bd01;">置顶</span>
+						<span class="put_top" v-show="news.top!==true && news.good==true" style="background-color:#80bd01;">精华</span>
+						<span class="put_top" v-show="news.top!==true && news.tab=='ask'" style="background-color:skyblue;">问答</span>
+						<span class="put_top" v-show="news.top!==true && news.good!==true && news.tab=='share'" style="background-color:orange;">分享</span>
+						<span class="put_top" v-show="news.top!==true && news.tab=='job'" style="background-color:red;">招聘</span>
+						<div class="reply">
+							<span v-text="news.reply_count"></span>/<span v-text="news.visit_count"></span>
+							<!--最后发表时间-->
+							<!--<span v-text="jsonDateFormat()" class="last_reply_at"></span>-->
+							<span v-text="news.last_reply_at" class="last_reply_at"></span>
+						</div>
 					</div>
 				</a>
 			</div>
@@ -119,15 +119,8 @@
 
 				this.page++;
 			},
-			jsonDateFormat(jsonDate) { //json日期格式转换为正常格式
-				try {
-					var date = new Date(parseInt(jsonDate.replace("/Date(", "").replace(")/", ""), 10));
-					var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-					var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
-					return date.getFullYear() + "." + month + "." + day;
-				} catch(ex) {
-					return "";
-				}
+			jsonDateFormat() { //json日期格式转换为正常格式
+				var date = new Date(+new Date()+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'')
 			}
 		},
 		mounted() {
@@ -235,13 +228,15 @@
 	}
 	
 	.reply {
-		display: inline-block;
+		display: block;
 		float: right;
 		color: #777;
+		width: 168px;
+		text-align: right;
 	}
 	
 	.last_reply_at {
-		display:inline-block;
+		display: inline-block;
 		float: right;
 		color: #777;
 	}

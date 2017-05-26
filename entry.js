@@ -72,6 +72,12 @@ const store = new Vuex.Store({
 	}
 })
 
+//自定义过滤器(时间格式化)
+Vue.filter('jsonDateFormat',function(){
+	var date = new Date(+new Date()+8*3600*1000).toISOString().replace(/T/g,' ').replace(/\.[\d]{3}Z/,'');
+})
+
+
 new Vue({
 	el: "#app",
 	data:{
